@@ -11,7 +11,7 @@
 
 Програмний модуль реалізовано на основі **UML-діаграми класів з ЛР 02**.
 
-🔗 **Посилання на UML-модель (ЛР 02):** https://github.com/HlibBaistovNURE/Touch-Up-Smart-OPI-Group-4-4
+**Посилання на UML-модель (ЛР 02):** https://github.com/tetianabondarenko3-oss/bse-lr2-Bondarenko/tree/lab-02/lab-02
 
 Модуль містить 3 класи відповідно до діаграми класів:
 
@@ -46,21 +46,6 @@ bse-lr3-Bondarenko/
 ├── package.json
 └── README.md
 ```
-
----
-
-## Запуск тестів
-
-```bash
-# 1. Встановити залежності
-npm install
-
-# 2. Запустити тести з покриттям
-npm test
-```
-
-Після запуску відкрий файл `coverage/lcov-report/index.html` у браузері — це HTML-звіт покриття.
-
 ---
 
 ## Результати тестування
@@ -71,31 +56,3 @@ npm test
 - **Патерн тестів:** AAA (Arrange → Act → Assert)
 
 ---
-
-## Таблиця тест-кейсів
-
-| ID | Метод | Техніка | Тип |
-|----|-------|---------|-----|
-| TC-01 | FactCard constructor | EP | Позитивний |
-| TC-02 | FactCard constructor | BVA (cardId=0) | Негативний |
-| TC-03 | FactCard constructor | EP (від'ємний) | Негативний |
-| TC-04 | FactCard constructor | EP (порожній title) | Негативний |
-| TC-05 | FactCard constructor | EP (порожній content) | Негативний |
-| TC-06 | FactCard.display() | — | Позитивний |
-| TC-07 | FactCard.deactivate() | — | Позитивний |
-| TC-08 | FactCard.deactivate() | EP (вже inactive) | Негативний |
-| TC-09 | Category constructor | EP | Позитивний |
-| TC-10 | Category constructor | EP (порожня назва) | Негативний |
-| TC-11 | Category.addCard() | — | Позитивний |
-| TC-12 | Category.addCard() | EP (дублікат) | Негативний |
-| TC-13 | Category.addCard() | EP (не FactCard) | Негативний |
-| TC-14 | Category.getActiveCards() | EP | Позитивний |
-| TC-15 | Category.selectCategory() | BVA (0 карток) | Граничний |
-| TC-16 | Category.selectCategory() | BVA (1 картка) | Граничний |
-| TC-17 | Category.selectCategory() | EP (багато) | Позитивний |
-| TC-18 | FavoriteList constructor | EP | Позитивний |
-| TC-19 | FavoriteList constructor | BVA (listId=0) | Негативний |
-| TC-20 | FavoriteList.addCard() | — | Позитивний |
-| TC-21 | FavoriteList.addCard() | EP (дублікат) | Негативний |
-| TC-22 | FavoriteList.removeCard() | — | Позитивний |
-| TC-23 | FavoriteList.removeCard() | EP (немає картки) | Негативний |
