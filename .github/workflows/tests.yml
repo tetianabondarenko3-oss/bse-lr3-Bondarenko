@@ -1,0 +1,26 @@
+name: Unit Tests — Touch Up Smart
+
+on:
+  push:
+    branches: ["main", "feature/**"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Завантажити код з репозиторію
+        uses: actions/checkout@v4
+
+      - name: Встановити Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Встановити залежності (Jest)
+        run: npm install
+
+      - name: Запустити тести з перевіркою покриття
+        run: npm test -- --coverageThreshold='{"global":{"lines":80}}'

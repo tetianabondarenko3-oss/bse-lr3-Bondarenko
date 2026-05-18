@@ -1,0 +1,23 @@
+{
+  "name": "bse-lr3-bondarenko",
+  "version": "1.0.0",
+  "description": "ЛР 3 — Модульне тестування. Проєкт Touch Up Smart. Бондаренко Тетяна, ПЗПІ-25-4",
+  "main": "src/touchUpSmart.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "jest": {
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
+  },
+  "author": "Бондаренко Тетяна Олександрівна",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
