@@ -179,3 +179,5 @@ class FavoriteList {
 
 // Експортуємо класи для використання у тестах
 module.exports = { FactCard, Category, FavoriteList };
+
+// Готуємо файл для Code Review
