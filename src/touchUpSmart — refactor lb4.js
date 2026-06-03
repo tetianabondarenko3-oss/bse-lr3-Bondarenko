@@ -7,10 +7,28 @@
  * Класи: FactCard, Category, FavoriteList
  */
 
+const CARD_STATUS = {
+  ACTIVE: "active",
+  INACTIVE: "inactive",
+};
 
+function validatePositiveInteger(value, paramName) {
+  if (!Number.isInteger(value) || value <= 0) {
+    throw new Error(`${paramName} must be a positive integer`);
+  }
+}
+
+function validateNonEmptyString(value, paramName) {
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new Error(`${paramName} must be a non-empty string`);
+  }
+
+  return value.trim();
+}
 // КЛАС FactCard — картка з фактом (з діаграми класів ЛР 02)
 
 class FactCard {
+  
   /**
    * Конструктор картки факту
    * @param {number} cardId   — унікальний номер картки (ціле число > 0)
@@ -18,23 +36,15 @@ class FactCard {
    * @param {string} content  — текст факту (не порожній рядок)
    */
   constructor(cardId, title, content) {
-    // Перевірка: cardId повинен бути цілим числом і більше 0
-    if (!Number.isInteger(cardId) || cardId <= 0) {
-      throw new Error("cardId must be a positive integer");
-    }
-    // Перевірка: title повинен бути рядком і не порожнім
-    if (typeof title !== "string" || title.trim() === "") {
-      throw new Error("title must be a non-empty string");
-    }
-    // Перевірка: content повинен бути рядком і не порожнім
-    if (typeof content !== "string" || content.trim() === "") {
-      throw new Error("content must be a non-empty string");
-    }
+    validatePositiveInteger(cardId, "cardId");
+
+    const normalizedTitle = validateNonEmptyString(title, "title");
+    const normalizedContent = validateNonEmptyString(content, "content");
 
     this.cardId = cardId;
-    this.title = title.trim();
-    this.content = content.trim();
-    this.status = "active"; // За замовчуванням картка активна
+    this.title = normalizedTitle;
+    this.content = normalizedContent;
+    this.status = CARD_STATUS.ACTIVE;
   }
 
   /**
@@ -52,12 +62,18 @@ class FactCard {
    * Кидає помилку, якщо картка вже неактивна
    */
   deactivate() {
-    if (this.status === "inactive") {
+    if (this.status === CARD_STATUS.INACTIVE) {
       throw new Error("Card is already inactive");
     }
-    this.status = "inactive";
+    this.status = CARD_STATUS.INACTIVE;
   }
 }
+
+// Статичні константи статусу картки
+FactCard.CARD_STATUS = {
+  ACTIVE: "active",
+  INACTIVE: "inactive",
+};
 
 
 // КЛАС Category — категорія події (з діаграми класів ЛР 02)
@@ -69,9 +85,7 @@ class Category {
    * @param {string} name       — назва категорії (не порожній рядок)
    */
   constructor(categoryId, name) {
-    if (!Number.isInteger(categoryId) || categoryId <= 0) {
-      throw new Error("categoryId must be a positive integer");
-    }
+    validatePositiveInteger(categoryId, "categoryId");
     if (typeof name !== "string" || name.trim() === "") {
       throw new Error("name must be a non-empty string");
     }
@@ -88,13 +102,12 @@ class Category {
   addCard(card) {
     // Перевірка: card повинен бути екземпляром класу FactCard
     if (!(card instanceof FactCard)) {
-      throw new Error("card must be an instance of FactCard");
+      throw new TypeError("card must be an instance of FactCard");
     }
     // Перевірка: картка з таким id вже є в категорії
-    const exists = this.cards.find((c) => c.cardId === card.cardId);
-    if (exists) {
-      throw new Error(`Card with id ${card.cardId} already exists in category`);
-    }
+    if (this.cards.some((c) => c.cardId === card.cardId)) {
+  throw new Error(`Card with id ${card.cardId} already exists in category`);
+}
     this.cards.push(card);
   }
 
@@ -103,7 +116,7 @@ class Category {
    * @returns {FactCard[]}
    */
   getActiveCards() {
-    return this.cards.filter((c) => c.status === "active");
+    return this.cards.filter((c) => c.status === CARD_STATUS.ACTIVE);
   }
 
   /**
@@ -129,9 +142,7 @@ class FavoriteList {
    * @param {number} listId — унікальний номер списку (ціле число > 0)
    */
   constructor(listId) {
-    if (!Number.isInteger(listId) || listId <= 0) {
-      throw new Error("listId must be a positive integer");
-    }
+    validatePositiveInteger(listId, "listId");
     this.listId = listId;
     this.cards = [];
     this.createdAt = new Date();
@@ -143,10 +154,11 @@ class FavoriteList {
    * @param {FactCard} card
    */
   addCard(card) {
-    if (!(card instanceof FactCard)) {
-      throw new Error("card must be an instance of FactCard");
-    }
-    if (this.cards.find((c) => c.cardId === card.cardId)) {
+    if (this.hasCard(card.cardId)) {
+  throw new Error("Card already in favorites");
+}
+    validatePositiveInteger(card.cardId, "cardId"); 
+    if (this.cards.some((c) => c.cardId === card.cardId)) {
       throw new Error("Card already in favorites");
     }
     this.cards.push(card);
@@ -157,9 +169,7 @@ class FavoriteList {
    * @param {number} cardId
    */
   removeCard(cardId) {
-    if (!Number.isInteger(cardId) || cardId <= 0) {
-      throw new Error("cardId must be a positive integer");
-    }
+    validatePositiveInteger(cardId, "cardId");
     const index = this.cards.findIndex((c) => c.cardId === cardId);
     if (index === -1) {
       throw new Error(`Card with id ${cardId} not found in favorites`);
@@ -179,5 +189,3 @@ class FavoriteList {
 
 // Експортуємо класи для використання у тестах
 module.exports = { FactCard, Category, FavoriteList };
-
-// Готуємо файл для Code Review
